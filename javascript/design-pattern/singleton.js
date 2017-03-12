@@ -10,19 +10,14 @@ let __instance = (function () {
 class Universe {
 	constructor () {
 		if (__instance()) return __instance()
+		//按自己需求实例化
 		this.foo = 'bar'
 		__instance(this)
 	}
 }
 
-// class Universe {
-// 	constructor () {
-// 		this.foo = 'bar'
-// 	}
-// }
-
 let u1 = new Universe()
 let u2 = new Universe()
 
-console.log(u1.foo)
-console.log(u1 === u2)
+console.log(u1.foo) //'bar'
+console.log(u1 === u2) //true
