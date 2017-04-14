@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>jsonp</title>
+<script src="js/jquery-2.0.3.js"></script>
+<script>
+var searchHandler = function(data) {
+	alert(`
+		----------------------------------
+		查询结果：
+		姓名：${data.name} 年龄：${data.age}
+		-----------------------------------
+	`)
+}
+
+// 提供jsonp服务的url地址（不管是什么类型的地址，最终生成的返回值都是一段javascript代码）
+var url = 'http://localhost:3000/jsonp/search?name=zjc&callback=searchHandler'
+
+function jsonp() {
+	// 创建script标签，设置其属性
+	var script = document.createElement('script')
+	script.setAttribute('src', url)
+
+	// 把script标签加入head，此时调用开始
+	document.getElementsByTagName('head')[0].appendChild(script)
+}
+
+function jsonp2() {
+	$.ajax({
+		type: 'get',
+		async: false,
+		url: url,
+		dataType: 'jsonp',
+		jsonp: 'callback', //传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
+		jsonpCallback: 'searchHandler',
+		success: function(json) {
+				alert(`
+					查询结果：
+					姓名：${json.name} 年龄：${json.age}
+				`)
+		},
+		error: function() {
+			alert('fail')
+		}
+	})
+}
+
+function jsonp3() {
+	// 创建script标签，设置其属性
+	var script = document.createElement('script')
+	script.setAttribute('src', 'local_json.json')
+
+	// 把script标签加入head，此时调用开始
+	document.getElementsByTagName('head')[0].appendChild(script)
+}
+</script>
+</head>
+<body>
+<button type="button" onclick="jsonp()">jsonp获取数据</button>
+<button type="button" onclick="jsonp2()">jsonp获取数据(使用jQuery)</button>
+<button type="button" onclick="jsonp3()">jsonp获取本地数据</button>
+</body>
+</html>

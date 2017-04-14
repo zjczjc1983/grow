@@ -1,0 +1,4 @@
+searchHandler({
+	name: 'zjc',
+	age: 34
+})
